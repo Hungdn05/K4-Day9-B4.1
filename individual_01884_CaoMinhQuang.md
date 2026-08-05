@@ -246,11 +246,11 @@ python -m scripts.audit_outputs               # audit độc lập 50 file đã 
 
 Đánh dấu sau khi tự kiểm tra:
 
-- [ ] Nội dung báo cáo phản ánh đúng phần việc và mức hiểu của tôi.
-- [ ] Tôi có thể giải thích luồng end-to-end, không chỉ module mình phụ trách.
-- [ ] Tôi không ghi “đã chạy thành công” cho phần chưa được kiểm chứng.
-- [ ] Báo cáo không chứa `.env`, API key, token hoặc secret.
-- [ ] Báo cáo này không phải bản sao nguyên văn của báo cáo nhóm hoặc báo cáo thành viên khác.
+- [X] Nội dung báo cáo phản ánh đúng phần việc và mức hiểu của tôi.
+- [X] Tôi có thể giải thích luồng end-to-end, không chỉ module mình phụ trách.
+- [X] Tôi không ghi “đã chạy thành công” cho phần chưa được kiểm chứng.
+- [X] Báo cáo không chứa `.env`, API key, token hoặc secret.
+- [X] Báo cáo này không phải bản sao nguyên văn của báo cáo nhóm hoặc báo cáo thành viên khác.
 
 **Họ và tên:** Cao Minh Quang
-**Ngày xác nhận:** [YYYY-MM-DD]
+**Ngày xác nhận:** [2026-08-05]
