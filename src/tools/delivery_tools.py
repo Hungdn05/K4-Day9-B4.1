@@ -50,17 +50,24 @@ def analyze_seller_handoff(order_id: str) -> dict:
     order = _require_order(order_id)
     items = get_store().get_items(order_id)
 
-    if not items:
+    handoff = clean_ts(order["order_delivered_carrier_date"])
+
+    # No item rows, or the carrier never collected the goods: there is no handoff event
+    # to analyse, so the array stays empty rather than carrying rows whose variance is
+    # null. A canceled order that never reached a carrier has nothing to report.
+    if not items or handoff is None:
         return {
             "order_id": order_id,
-            "carrier_handoff_at": clean_ts(order["order_delivered_carrier_date"]),
+            "carrier_handoff_at": handoff,
             "seller_handoff_analysis": [],
             "late_handoff_seller_ids": [],
             "any_late_handoff": False,
-            "note": "Order has no item rows, so there is no seller handoff to analyse.",
+            "note": (
+                "Order has no item rows, so there is no seller handoff to analyse."
+                if not items
+                else "The carrier never collected this order, so no handoff took place."
+            ),
         }
-
-    handoff = clean_ts(order["order_delivered_carrier_date"])
 
     earliest_limit: dict[str, str] = {}
     seller_order: list[str] = []

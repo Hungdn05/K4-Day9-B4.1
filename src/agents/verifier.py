@@ -375,11 +375,20 @@ def verify(
     # 9. null handling for orders without item rows
     if not core.get("has_item_rows", True):
         recon_block = output.get("payment_reconciliation", {})
-        for key in ("item_total_brl", "freight_total_brl", "expected_total_brl", "difference_brl", "reconciled"):
+        # README section 4 names exactly these three as null. item_total_brl and
+        # freight_total_brl are sums over zero rows, which is 0.00, not unknown.
+        for key in ("expected_total_brl", "difference_brl", "reconciled"):
             if recon_block.get(key) is not None:
                 violation(
                     "null_handling",
                     f"order has no item rows so payment_reconciliation.{key} must be null",
+                )
+        for key in ("item_total_brl", "freight_total_brl"):
+            if recon_block.get(key) != 0:
+                violation(
+                    "null_handling",
+                    f"order has no item rows so payment_reconciliation.{key} must be 0.0, "
+                    f"got {recon_block.get(key)!r}",
                 )
         entities = output.get("affected_entities", {})
         for key in ("item_ids", "seller_ids"):

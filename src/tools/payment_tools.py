@@ -55,6 +55,10 @@ def reconcile_order_payment(order_id: str) -> dict:
 
     Returns expected_total_brl, difference_brl and reconciled as null when the order
     has no item rows -- there is nothing to reconcile against.
+
+    item_total_brl and freight_total_brl stay real numbers even then, because summing
+    zero item rows is 0.00 rather than unknown. README section 4 names only the other
+    three fields as null, and an earlier version wrongly nulled these two as well.
     """
     _require_order(order_id)
     store = get_store()
@@ -67,8 +71,8 @@ def reconcile_order_payment(order_id: str) -> dict:
         return {
             "order_id": order_id,
             "currency": config.CURRENCY,
-            "item_total_brl": None,
-            "freight_total_brl": None,
+            "item_total_brl": 0.0,
+            "freight_total_brl": 0.0,
             "expected_total_brl": None,
             "payment_total_brl": round2(payment_total),
             "difference_brl": None,

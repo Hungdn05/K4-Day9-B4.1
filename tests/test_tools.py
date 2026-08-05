@@ -85,8 +85,10 @@ def test_no_item_orders(pairs: list[tuple[str, str]]) -> None:
             rec["expected_total_brl"] is None
             and rec["difference_brl"] is None
             and rec["reconciled"] is None
-            and rec["item_total_brl"] is None
-            and rec["freight_total_brl"] is None
+            # Summing zero item rows is 0.00, not unknown. README section 4 names only
+            # expected/difference/reconciled as null.
+            and rec["item_total_brl"] == 0
+            and rec["freight_total_brl"] == 0
             and items["item_ids"] == []
             and items["seller_ids"] == []
             and prod["product_ids"] == []

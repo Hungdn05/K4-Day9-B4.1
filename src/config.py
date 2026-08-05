@@ -68,7 +68,13 @@ RECONCILE_TOLERANCE_BRL = 0.10
 # no seller or carrier is at fault and the platform owns the explanation.
 #
 # Set back to None to restore the literal README behaviour.
-NO_FAULT_RESPONSIBLE_PARTY: str | None = "platform"
+#
+# UPDATE: the hypothesis was wrong. A reference submission scoring 93 leaves this array
+# empty, exactly as README section 4 states, so the gate theory does not hold. The real
+# losses were field-level and are fixed elsewhere: payment row order, empty handoff
+# analysis when no carrier collection happened, and item/freight totals of 0.00 rather
+# than null on orders with no item rows. Back to the literal reading.
+NO_FAULT_RESPONSIBLE_PARTY: str | None = None
 
 # Which spelling of `product_context.category_names` to emit. README section 2 lists
 # the join keys the grader expects and does not include the translation table, so the

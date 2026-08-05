@@ -94,24 +94,21 @@ def get_store() -> OlistStore:
     sellers = _read("olist_sellers_dataset.csv")
     categories = _read("product_category_name_translation.csv")
 
-    # Stable ordering so every array in the output is reproducible.
-    items = items.assign(_seq=items["order_item_id"].astype(int)).sort_values(
-        ["order_id", "_seq"], kind="mergesort"
-    )
-    payments = payments.assign(_seq=payments["payment_sequential"].astype(int)).sort_values(
-        ["order_id", "_seq"], kind="mergesort"
-    )
-
+    # Rows are kept in the order they appear in the CSV. README section 6 asks arrays to
+    # follow "thứ tự ổn định theo dữ liệu nguồn" -- the source file order, not a sort key.
+    # An earlier version sorted payments by payment_sequential, which reordered 9 of the
+    # 50 cases: order 23c312ca... stores sequential 2 on line 41760 and sequential 1 on
+    # line 72223, so the correct array is [":2", ":1"].
     orders_by_id: dict[str, dict] = {}
     for row in _records(orders):
         orders_by_id[row["order_id"]] = row
 
     items_by_order: dict[str, list[dict]] = {}
-    for row in _records(items.drop(columns="_seq")):
+    for row in _records(items):
         items_by_order.setdefault(row["order_id"], []).append(row)
 
     payments_by_order: dict[str, list[dict]] = {}
-    for row in _records(payments.drop(columns="_seq")):
+    for row in _records(payments):
         payments_by_order.setdefault(row["order_id"], []).append(row)
 
     customer_by_id: dict[str, dict] = {}
