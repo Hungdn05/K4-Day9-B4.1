@@ -34,7 +34,7 @@
 | Nhiệm vụ đã thực hiện | File/hàm/artifact liên quan | Kết quả bàn giao | Cách xác minh |
 | --------------------- | --------------------------- | ---------------- | ------------- |
 | Đối soát và phân loại 50 case | `output/EC_001.json` … `EC_050.json` | 50/50 output đúng envelope và semantic rule | Batch verifier và parse lại toàn bộ JSON |
-| Ghi trace chạy thật | `logging/trace.jsonl` | 350 agent handoff, 7 event/case | Parse 350 dòng JSONL |
+| Ghi trace chạy thật | `logging/trace.jsonl` | 350 agent handoff và 350 model review, 7 event/case | Parse 350 dòng JSONL và response ID |
 | Ghi cấu hình chạy | `logging/metadata.json` | Model, policy, framework, runtime, distribution | Kiểm tra JSON metadata |
 | Đóng gói bài nộp | `output.zip` | Đúng 50 JSON, không có file lạ | `ZipFile.testzip()` và kiểm tra danh sách entry |
 | Kiểm thử | `tests/` | 8/8 test pass, phủ đủ 6 primary issue | `python3 -m unittest discover` |
@@ -82,11 +82,11 @@ và các giới hạn trước khi ghi file.
 
 ```bash
 PYTHONPATH=src python3 -m unittest discover -s tests -v
-PYTHONPATH=src python3 -m ecommerce_dispute batch --root . --archive output.zip
+PYTHONPATH=src python3 -m ecommerce_dispute batch --root . --archive output.zip --use-model --model-workers 3
 ```
 
 - **Kết quả mong đợi:** 8 test pass; 50 output; ZIP đúng 50 entry; trace và metadata hợp lệ.
-- **Kết quả thực tế:** 8/8 test pass; 50/50 output; 350 trace event; ZIP test không lỗi.
+- **Kết quả thực tế:** 8/8 test pass; 50/50 output; 350 trace/model event, 81.501 token; ZIP test không lỗi.
 - **Artifact/log:** `output/`, `output.zip`, `logging/trace.jsonl`, `logging/metadata.json`.
 
 ## 5. Một quyết định kỹ thuật quan trọng
@@ -95,7 +95,7 @@ PYTHONPATH=src python3 -m ecommerce_dispute batch --root . --archive output.zip
 - **Các phương án đã cân nhắc:** (1) để model tự đọc CSV và sinh toàn bộ JSON; (2) dùng agent handoff nhưng tính toán và policy bằng Python xác định.
 - **Phương án đã chọn:** Agent handoff kết hợp deterministic joins, `Decimal`, timestamp arithmetic và policy engine.
 - **Lý do:** Giảm hallucination, giữ số tiền chính xác, chạy lặp lại được và audit tới từng record nguồn. `gpt-4o-mini` được khai báo theo cấu hình dự án; số 8B là xác nhận của project owner, không phải số OpenAI công bố.
-- **Bằng chứng quyết định phù hợp:** 50/50 case qua validator; đủ 6 nhánh policy; không có evidence ID sai định dạng; hai lần chạy cho cùng dữ liệu cho cùng nội dung nghiệp vụ.
+- **Bằng chứng quyết định phù hợp:** 50/50 case qua validator; đủ 6 nhánh policy; 350 model invocation được ghi response ID/usage; không có evidence ID sai định dạng; model review không có quyền thay đổi số liệu.
 
 ## 6. Một lỗi hoặc blocker đã xử lý
 
@@ -131,8 +131,9 @@ Giải thích ngắn gọn bằng lời của bạn:
 4. Evidence chỉ chấp nhận các prefix và ID dựng trực tiếp từ order/item/payment/
    seller cùng policy code. Verifier tái dựng danh sách kỳ vọng và từ chối ID
    thừa, sai format hoặc không khớp output entities.
-5. Batch thành công khi có đúng 50 output hợp lệ, trace parse được 350 event,
-   metadata ghi đủ runtime/model/policy, ZIP chứa đúng 50 tên file và CRC không lỗi.
+5. Batch thành công khi có đúng 50 output hợp lệ, trace parse được 350 event có
+   model response ID, metadata ghi đủ runtime/model/policy/usage, ZIP chứa đúng
+   50 tên file và CRC không lỗi.
 
 ## 8. Cam kết của thành viên
 

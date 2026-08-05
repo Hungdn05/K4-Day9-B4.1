@@ -18,8 +18,8 @@
     "platform": "macOS-26.6-arm64-arm-64bit-Mach-O"
   },
   "run": {
-    "started_at_utc": "2026-08-05T07:50:49.275768+00:00",
-    "completed_at_utc": "2026-08-05T07:50:50.190491+00:00",
+    "started_at_utc": "2026-08-05T08:01:52.488515+00:00",
+    "completed_at_utc": "2026-08-05T08:04:51.229273+00:00",
     "case_count": 50,
     "trace_event_count": 350,
     "primary_issue_counts": {
@@ -29,6 +29,12 @@
       "unavailable_order_paid": 6,
       "unsupported_late_claim": 8,
       "valid_split_payment": 8
+    },
+    "model_usage": {
+      "invocation_count": 350,
+      "input_tokens": 94169,
+      "output_tokens": 13098,
+      "total_tokens": 107267
     }
   }
 }

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from decimal import Decimal
 import json
@@ -13,6 +14,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 from .config import MODEL_CONFIG, POLICY_VERSION, ProjectPaths
 from .contracts import read_case_request, required_case_paths, validate_case_output
+from .openai_client import OpenAIResponsesClient, read_openai_api_key
 from .pipeline import DisputeCoordinator
 from .repository import OlistRepository
 
@@ -32,7 +34,12 @@ def _write_json(path: Path, document: dict[str, Any]) -> None:
     temporary.replace(path)
 
 
-def run_batch(paths: ProjectPaths, archive_path: Path) -> dict[str, Any]:
+def run_batch(
+    paths: ProjectPaths,
+    archive_path: Path,
+    use_model: bool = False,
+    model_workers: int = 10,
+) -> dict[str, Any]:
     """Process exactly EC_001..EC_050 and overwrite only their run artifacts."""
 
     started_at = datetime.now(UTC)
@@ -69,6 +76,27 @@ def run_batch(paths: ProjectPaths, archive_path: Path) -> dict[str, Any]:
                 **handoff.as_json(),
             })
 
+    model_usage = {"invocation_count": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0}
+    if use_model:
+        client = OpenAIResponsesClient(read_openai_api_key(paths.root / ".env"))
+        with ThreadPoolExecutor(max_workers=model_workers, thread_name_prefix="openai-audit") as executor:
+            audits = list(executor.map(client.audit_handoff, trace_events))
+        for event, audit in zip(trace_events, audits, strict=True):
+            event["model_audit"] = {
+                "model": MODEL_CONFIG["name"],
+                "response_id": audit.response_id,
+                "text": audit.text,
+                "usage": {
+                    "input_tokens": audit.input_tokens,
+                    "output_tokens": audit.output_tokens,
+                    "total_tokens": audit.total_tokens,
+                },
+            }
+            model_usage["invocation_count"] += 1
+            model_usage["input_tokens"] += audit.input_tokens
+            model_usage["output_tokens"] += audit.output_tokens
+            model_usage["total_tokens"] += audit.total_tokens
+
     trace_path = paths.logging_dir / "trace.jsonl"
     trace_temporary = trace_path.with_suffix(".jsonl.tmp")
     trace_temporary.write_text(
@@ -97,6 +125,7 @@ def run_batch(paths: ProjectPaths, archive_path: Path) -> dict[str, Any]:
             "case_count": len(output_paths),
             "trace_event_count": len(trace_events),
             "primary_issue_counts": dict(sorted(issue_counts.items())),
+            "model_usage": model_usage,
         },
     }
     _write_json(paths.logging_dir / "metadata.json", metadata)
@@ -112,4 +141,5 @@ def run_batch(paths: ProjectPaths, archive_path: Path) -> dict[str, Any]:
         "trace_event_count": len(trace_events),
         "archive": str(archive_path),
         "primary_issue_counts": dict(sorted(issue_counts.items())),
+        "model_usage": model_usage,
     }
