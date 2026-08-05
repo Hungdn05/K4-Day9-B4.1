@@ -87,9 +87,14 @@ class DisputeCoordinator:
             {"valid": True, "checks": ["schema", "array_limits", "evidence_format"]},
             tuple(output["evidence_ids"]),
         )
+        coordinator_handoff = AgentHandoff.create(
+            request.case_id, AgentName.COORDINATOR,
+            {"status": "assembled_and_verified", "claimed_order_id": request.claimed_order_id},
+            (f"order:{request.claimed_order_id}",),
+        )
         return output, (
             customer_handoff, order_handoff, payment_handoff, delivery_handoff,
-            policy_handoff, verifier_handoff,
+            policy_handoff, verifier_handoff, coordinator_handoff,
         )
 
     def _customer_worker(self, request: CaseRequest, order: dict[str, str]) -> AgentHandoff:

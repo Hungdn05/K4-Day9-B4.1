@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 
 from .contracts import read_case_request, required_case_paths
+from .batch import run_batch
+from .config import project_paths
 from .data_loader import OlistDataLoader
 from .pipeline import DisputeCoordinator
 from .repository import OlistRepository
@@ -25,6 +27,9 @@ def main() -> int:
     investigate.add_argument("--data-dir", type=Path, default=Path("data"))
     investigate.add_argument("--input", type=Path, required=True)
     investigate.add_argument("--output", type=Path, required=True)
+    batch = subcommands.add_parser("batch", help="Run all 50 cases and create submission artifacts")
+    batch.add_argument("--root", type=Path, default=Path("."))
+    batch.add_argument("--archive", type=Path, default=Path("output.zip"))
     args = parser.parse_args()
 
     if args.command == "check-data":
@@ -37,6 +42,10 @@ def main() -> int:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"Wrote {args.output}.")
+        return 0
+    if args.command == "batch":
+        result = run_batch(project_paths(args.root), args.archive.resolve())
+        print(json.dumps(result, ensure_ascii=False, sort_keys=True))
         return 0
     if args.command == "check-inputs":
         paths = required_case_paths(args.input_dir)

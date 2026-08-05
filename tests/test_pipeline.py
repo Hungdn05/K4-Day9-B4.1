@@ -65,7 +65,7 @@ class PipelineTests(unittest.TestCase):
             ["refund_freight", "review_seller_handoff", "verify_refund_completion", "coordinate_multi_seller_case", "verify_payment_allocation"],
         )
         self.assertEqual([handoff.agent.value for handoff in handoffs], [
-            "customer", "order_product", "payment", "delivery", "policy", "verifier",
+            "customer", "order_product", "payment", "delivery", "policy", "verifier", "coordinator",
         ])
         self.assertIn("policy:SELLER_HANDOFF_AFTER_LIMIT", output["evidence_ids"])
         self.assertEqual(output["evidence_ids"][0], "order:order-1")
@@ -101,7 +101,7 @@ class PipelineTests(unittest.TestCase):
             request = CaseRequest("QA", "vi", "qa", order_id, True, True, POLICY_VERSION)
             output, handoffs = coordinator.investigate(request)
             self.assertEqual(output["case_assessment"]["primary_issue"], primary_issue)
-            self.assertEqual(len(handoffs), 6)
+            self.assertEqual(len(handoffs), 7)
             validate_case_output(output, "QA")
 
 
