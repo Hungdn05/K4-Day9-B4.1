@@ -29,9 +29,12 @@ def main() -> int:
     investigate.add_argument("--output", type=Path, required=True)
     batch = subcommands.add_parser("batch", help="Run all 50 cases and create submission artifacts")
     batch.add_argument("--root", type=Path, default=Path("."))
-    batch.add_argument("--archive", type=Path, default=Path("output.zip"))
+    batch.add_argument("--archive", type=Path, default=Path("SUBMISSION.zip"))
     batch.add_argument("--use-model", action="store_true", help="Audit every handoff with configured OpenAI model")
     batch.add_argument("--model-workers", type=int, default=10)
+    package = subcommands.add_parser("package", help="Create SUBMISSION/output and SUBMISSION.zip")
+    package.add_argument("--root", type=Path, default=Path("."))
+    package.add_argument("--archive", type=Path, default=Path("SUBMISSION.zip"))
     args = parser.parse_args()
 
     if args.command == "check-data":
@@ -50,6 +53,12 @@ def main() -> int:
             project_paths(args.root), args.archive.resolve(),
             use_model=args.use_model, model_workers=args.model_workers,
         )
+        print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+        return 0
+    if args.command == "package":
+        from .batch import create_submission_archive
+
+        result = create_submission_archive(project_paths(args.root), args.archive.resolve())
         print(json.dumps(result, ensure_ascii=False, sort_keys=True))
         return 0
     if args.command == "check-inputs":

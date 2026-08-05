@@ -1,0 +1,875 @@
+{
+  "options": {
+    "no_item_totals_zero": true,
+    "translated_categories": false,
+    "responsible_sellers_only": false,
+    "no_action_primary_action_only": false,
+    "sort_payments_by_sequence": false,
+    "deduplicate_payment_types": true
+  },
+  "case_count": 50,
+  "mean_exact_group_score": 100.0,
+  "exact_group_counts": {
+    "issues": 50,
+    "entities": 50,
+    "contexts": 50,
+    "delivery": 50,
+    "payment": 50,
+    "root_evidence": 50,
+    "financial_actions": 50
+  },
+  "mismatch_case_count": 0,
+  "cases": [
+    {
+      "case_id": "EC_001",
+      "primary_issue": "unsupported_late_claim",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_002",
+      "primary_issue": "late_delivery_seller",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_003",
+      "primary_issue": "late_delivery_logistics",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_004",
+      "primary_issue": "canceled_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_005",
+      "primary_issue": "late_delivery_logistics",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_006",
+      "primary_issue": "late_delivery_seller",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_007",
+      "primary_issue": "late_delivery_logistics",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_008",
+      "primary_issue": "valid_split_payment",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_009",
+      "primary_issue": "canceled_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_010",
+      "primary_issue": "valid_split_payment",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_011",
+      "primary_issue": "canceled_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_012",
+      "primary_issue": "unavailable_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_013",
+      "primary_issue": "late_delivery_seller",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_014",
+      "primary_issue": "late_delivery_logistics",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_015",
+      "primary_issue": "valid_split_payment",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_016",
+      "primary_issue": "late_delivery_logistics",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_017",
+      "primary_issue": "late_delivery_logistics",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_018",
+      "primary_issue": "unsupported_late_claim",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_019",
+      "primary_issue": "late_delivery_seller",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_020",
+      "primary_issue": "late_delivery_seller",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_021",
+      "primary_issue": "unsupported_late_claim",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_022",
+      "primary_issue": "valid_split_payment",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_023",
+      "primary_issue": "late_delivery_logistics",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_024",
+      "primary_issue": "canceled_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_025",
+      "primary_issue": "unsupported_late_claim",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_026",
+      "primary_issue": "canceled_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_027",
+      "primary_issue": "late_delivery_logistics",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_028",
+      "primary_issue": "canceled_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_029",
+      "primary_issue": "valid_split_payment",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_030",
+      "primary_issue": "canceled_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_031",
+      "primary_issue": "unavailable_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_032",
+      "primary_issue": "late_delivery_seller",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_033",
+      "primary_issue": "unavailable_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_034",
+      "primary_issue": "unavailable_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_035",
+      "primary_issue": "unavailable_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_036",
+      "primary_issue": "valid_split_payment",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_037",
+      "primary_issue": "late_delivery_logistics",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_038",
+      "primary_issue": "unsupported_late_claim",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_039",
+      "primary_issue": "late_delivery_seller",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_040",
+      "primary_issue": "late_delivery_logistics",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_041",
+      "primary_issue": "valid_split_payment",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_042",
+      "primary_issue": "late_delivery_seller",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_043",
+      "primary_issue": "unavailable_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_044",
+      "primary_issue": "unsupported_late_claim",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_045",
+      "primary_issue": "unsupported_late_claim",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_046",
+      "primary_issue": "late_delivery_seller",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_047",
+      "primary_issue": "canceled_order_paid",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_048",
+      "primary_issue": "late_delivery_seller",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_049",
+      "primary_issue": "valid_split_payment",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "EC_050",
+      "primary_issue": "unsupported_late_claim",
+      "exact_group_score": 100.0,
+      "groups": {
+        "issues": true,
+        "entities": true,
+        "contexts": true,
+        "delivery": true,
+        "payment": true,
+        "root_evidence": true,
+        "financial_actions": true
+      },
+      "mismatches": []
+    }
+  ],
+  "observed_external_score": 67.1417,
+  "hypothesis_sweep": {
+    "legacy_null_empty_totals": {
+      "mean_exact_group_score": 98.2,
+      "distance_to_observed_score": 31.0583,
+      "exact_group_counts": {
+        "issues": 50,
+        "entities": 50,
+        "contexts": 50,
+        "delivery": 50,
+        "payment": 44,
+        "root_evidence": 50,
+        "financial_actions": 50
+      },
+      "mismatch_case_count": 6
+    },
+    "english_categories": {
+      "mean_exact_group_score": 87.1,
+      "distance_to_observed_score": 19.9583,
+      "exact_group_counts": {
+        "issues": 50,
+        "entities": 50,
+        "contexts": 7,
+        "delivery": 50,
+        "payment": 50,
+        "root_evidence": 50,
+        "financial_actions": 50
+      },
+      "mismatch_case_count": 43
+    },
+    "responsible_sellers_only": {
+      "mean_exact_group_score": 89.8,
+      "distance_to_observed_score": 22.6583,
+      "exact_group_counts": {
+        "issues": 50,
+        "entities": 16,
+        "contexts": 50,
+        "delivery": 50,
+        "payment": 50,
+        "root_evidence": 50,
+        "financial_actions": 50
+      },
+      "mismatch_case_count": 34
+    },
+    "no_action_primary_action_only": {
+      "mean_exact_group_score": 97.6,
+      "distance_to_observed_score": 30.4583,
+      "exact_group_counts": {
+        "issues": 50,
+        "entities": 50,
+        "contexts": 50,
+        "delivery": 50,
+        "payment": 50,
+        "root_evidence": 50,
+        "financial_actions": 38
+      },
+      "mismatch_case_count": 12
+    },
+    "payment_sequence_sort": {
+      "mean_exact_group_score": 92.5,
+      "distance_to_observed_score": 25.3583,
+      "exact_group_counts": {
+        "issues": 50,
+        "entities": 41,
+        "contexts": 50,
+        "delivery": 50,
+        "payment": 43,
+        "root_evidence": 41,
+        "financial_actions": 50
+      },
+      "mismatch_case_count": 9
+    },
+    "deduplicated_payment_types": {
+      "mean_exact_group_score": 100.0,
+      "distance_to_observed_score": 32.8583,
+      "exact_group_counts": {
+        "issues": 50,
+        "entities": 50,
+        "contexts": 50,
+        "delivery": 50,
+        "payment": 50,
+        "root_evidence": 50,
+        "financial_actions": 50
+      },
+      "mismatch_case_count": 0
+    },
+    "rejected_combined_mutation": {
+      "mean_exact_group_score": 68.5,
+      "distance_to_observed_score": 1.3583,
+      "exact_group_counts": {
+        "issues": 50,
+        "entities": 14,
+        "contexts": 7,
+        "delivery": 50,
+        "payment": 41,
+        "root_evidence": 41,
+        "financial_actions": 38
+      },
+      "mismatch_case_count": 44
+    }
+  }
+}

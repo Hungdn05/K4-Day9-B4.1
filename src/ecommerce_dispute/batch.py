@@ -9,6 +9,7 @@ from decimal import Decimal
 import json
 from pathlib import Path
 import platform
+from shutil import copy2
 from typing import Any
 from zipfile import ZIP_DEFLATED, ZipFile
 
@@ -32,6 +33,50 @@ def _write_json(path: Path, document: dict[str, Any]) -> None:
         encoding="utf-8",
     )
     temporary.replace(path)
+
+
+def create_submission_archive(paths: ProjectPaths, archive_path: Path) -> dict[str, Any]:
+    """Stage SUBMISSION/output and zip exactly output/EC_001..EC_050.json.
+
+    The upload validator requires the ``output/`` prefix on every entry and
+    rejects anything else, so the archive carries that prefix and nothing else:
+    no Finder side-car files, no staging directory, no bare file names.
+    """
+
+    expected_names = [f"EC_{number:03d}.json" for number in range(1, 51)]
+    expected_entries = [f"output/{name}" for name in expected_names]
+    source_paths = [paths.output_dir / name for name in expected_names]
+    missing = [path.name for path in source_paths if not path.is_file()]
+    if missing:
+        raise ValueError(f"Cannot package submission; missing outputs: {missing}")
+
+    submission_output_dir = paths.root / "SUBMISSION" / "output"
+    submission_output_dir.mkdir(parents=True, exist_ok=True)
+    unexpected = [path.name for path in submission_output_dir.glob("*.json") if path.name not in expected_names]
+    if unexpected:
+        raise ValueError(f"Unexpected JSON files in SUBMISSION/output: {unexpected}")
+    staged_paths: list[Path] = []
+    for source_path in source_paths:
+        staged_path = submission_output_dir / source_path.name
+        copy2(source_path, staged_path)
+        staged_paths.append(staged_path)
+
+    archive_temporary = archive_path.with_suffix(archive_path.suffix + ".tmp")
+    with ZipFile(archive_temporary, "w", compression=ZIP_DEFLATED) as archive:
+        for staged_path in staged_paths:
+            archive.write(staged_path, arcname=f"output/{staged_path.name}")
+    with ZipFile(archive_temporary) as archive:
+        written = archive.namelist()
+    if written != expected_entries:
+        archive_temporary.unlink(missing_ok=True)
+        raise ValueError(f"Archive layout is not the required layout: {written}")
+    archive_temporary.replace(archive_path)
+    return {
+        "submission_dir": str(paths.root / "SUBMISSION"),
+        "archive": str(archive_path),
+        "archive_entry_count": len(written),
+        "archive_entries": f"{written[0]}..{written[-1]}",
+    }
 
 
 def run_batch(
@@ -130,16 +175,12 @@ def run_batch(
     }
     _write_json(paths.logging_dir / "metadata.json", metadata)
 
-    archive_temporary = archive_path.with_suffix(archive_path.suffix + ".tmp")
-    with ZipFile(archive_temporary, "w", compression=ZIP_DEFLATED) as archive:
-        for output_path in output_paths:
-            archive.write(output_path, arcname=output_path.name)
-    archive_temporary.replace(archive_path)
+    submission = create_submission_archive(paths, archive_path)
 
     return {
         "output_count": len(output_paths),
         "trace_event_count": len(trace_events),
-        "archive": str(archive_path),
+        **submission,
         "primary_issue_counts": dict(sorted(issue_counts.items())),
         "model_usage": model_usage,
     }
