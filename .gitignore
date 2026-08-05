@@ -11,3 +11,5 @@ venv/
 # Submission artifact
 output.zip
 
+# Experiment artifacts
+variants/
