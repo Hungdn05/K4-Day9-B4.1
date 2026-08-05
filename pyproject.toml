@@ -1,0 +1,9 @@
+[project]
+name = "olist-dispute-resolution"
+version = "0.1.0"
+description = "K4 Day 9 multi-agent e-commerce dispute resolution"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
