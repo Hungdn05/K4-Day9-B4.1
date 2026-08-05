@@ -87,9 +87,14 @@ class DisputeCoordinator:
             {"valid": True, "checks": ["schema", "array_limits", "evidence_format"]},
             tuple(output["evidence_ids"]),
         )
+        coordinator_handoff = AgentHandoff.create(
+            request.case_id, AgentName.COORDINATOR,
+            {"status": "assembled_and_verified", "claimed_order_id": request.claimed_order_id},
+            (f"order:{request.claimed_order_id}",),
+        )
         return output, (
             customer_handoff, order_handoff, payment_handoff, delivery_handoff,
-            policy_handoff, verifier_handoff,
+            policy_handoff, verifier_handoff, coordinator_handoff,
         )
 
     def _customer_worker(self, request: CaseRequest, order: dict[str, str]) -> AgentHandoff:
@@ -127,14 +132,17 @@ class DisputeCoordinator:
         payments = self.repository.payments_by_order_id.get(order_id, ())
         payment_ids = [f"{order_id}:{payment['payment_sequential']}" for payment in payments]
         payment_total = _money(sum((Decimal(row["payment_value"]) for row in payments), Decimal("0")))
+        item_total = _money(sum((Decimal(row["price"]) for row in items), Decimal("0")))
+        freight_total = _money(sum((Decimal(row["freight_value"]) for row in items), Decimal("0")))
         if items:
-            item_total = _money(sum((Decimal(row["price"]) for row in items), Decimal("0")))
-            freight_total = _money(sum((Decimal(row["freight_value"]) for row in items), Decimal("0")))
-            expected_total = _money(item_total + freight_total)
-            difference = _money(payment_total - expected_total)
+            expected_total: Decimal | None = _money(item_total + freight_total)
+            difference: Decimal | None = _money(payment_total - expected_total)
             reconciled: bool | None = abs(difference) <= Decimal("0.10")
         else:
-            item_total = freight_total = expected_total = difference = None
+            # EC_POLICY_V2 names exactly three fields that an order without item
+            # rows must report as null.  The two totals stay numeric because a sum
+            # over zero item rows is 0.00, not an unknown quantity.
+            expected_total = difference = None
             reconciled = None
         payload = {
             "payment_ids": payment_ids[:MAX_PAYMENTS], "all_payment_count": len(payments),
@@ -154,16 +162,22 @@ class DisputeCoordinator:
         estimated_at = order["order_estimated_delivery_date"] or None
         carrier_at = order["order_delivered_carrier_date"] or None
         seller_rows: list[dict[str, Any]] = []
-        for seller_id in _distinct([item["seller_id"] for item in items]):
+        # A seller handoff can only be analysed against a handoff that happened.
+        # With no order_delivered_carrier_date there is no such event in the data,
+        # and EC_POLICY_V2 forbids inventing events that do not exist, so the
+        # analysis stays empty instead of asserting a variance or a late flag for
+        # a shipment that never left the seller.
+        for seller_id in _distinct([item["seller_id"] for item in items]) if carrier_at else ():
             seller_items = [item for item in items if item["seller_id"] == seller_id]
             shipping_limits = [item["shipping_limit_date"] for item in seller_items if item["shipping_limit_date"]]
             shipping_limit = min(shipping_limits) if shipping_limits else None
-            handoff_variance = _hours_after(carrier_at or "", shipping_limit or "")
+            measured = _hours_after(carrier_at, shipping_limit or "")
+            handoff_variance = measured if measured is not None else Decimal("0").quantize(HOURS_QUANTUM)
             seller_rows.append({
                 "seller_id": seller_id,
                 "shipping_limit_at": shipping_limit,
                 "handoff_variance_hours": handoff_variance,
-                "late_handoff": handoff_variance is not None and handoff_variance > 0,
+                "late_handoff": handoff_variance > 0,
             })
         late_sellers = [row["seller_id"] for row in seller_rows if row["late_handoff"]]
         delivery_variance = _hours_after(delivered_at or "", estimated_at or "")

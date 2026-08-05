@@ -65,7 +65,7 @@ class PipelineTests(unittest.TestCase):
             ["refund_freight", "review_seller_handoff", "verify_refund_completion", "coordinate_multi_seller_case", "verify_payment_allocation"],
         )
         self.assertEqual([handoff.agent.value for handoff in handoffs], [
-            "customer", "order_product", "payment", "delivery", "policy", "verifier",
+            "customer", "order_product", "payment", "delivery", "policy", "verifier", "coordinator",
         ])
         self.assertIn("policy:SELLER_HANDOFF_AFTER_LIMIT", output["evidence_ids"])
         self.assertEqual(output["evidence_ids"][0], "order:order-1")
@@ -84,7 +84,58 @@ class PipelineTests(unittest.TestCase):
         self.assertIsNone(reconciliation["expected_total_brl"])
         self.assertIsNone(reconciliation["difference_brl"])
         self.assertIsNone(reconciliation["reconciled"])
+        # A sum over zero item rows is 0.00; only the three named fields are null.
+        self.assertEqual(reconciliation["item_total_brl"], 0.0)
+        self.assertEqual(reconciliation["freight_total_brl"], 0.0)
         self.assertEqual(output["financial_resolution"]["recommended_refund_brl"], 12.34)
+
+    def test_complaint_text_can_never_become_a_fact(self) -> None:
+        """The claim is not evidence: the same order must resolve the same way
+        whether the customer asserts a late delivery or asks a neutral question,
+        and a late claim contradicted by the timestamps must be rejected."""
+
+        repository = OlistRepository.from_rows({
+            "customers": [{"customer_id": "c", "customer_unique_id": "u"}],
+            "orders": [{"order_id": "o", "customer_id": "c", "order_status": "delivered",
+                        "order_delivered_carrier_date": "2018-01-02 09:00:00",
+                        "order_delivered_customer_date": "2018-01-05 09:00:00",
+                        "order_estimated_delivery_date": "2018-01-10 00:00:00"}],
+            "order_items": [{"order_id": "o", "order_item_id": "1", "product_id": "p", "seller_id": "s",
+                             "shipping_limit_date": "2018-01-04 09:00:00", "price": "10.00", "freight_value": "2.00"}],
+            "order_payments": [{"order_id": "o", "payment_sequential": "1", "payment_type": "credit_card", "payment_value": "12.00"}],
+            "products": [{"product_id": "p", "product_category_name": "cama_mesa_banho"}],
+        })
+        coordinator = DisputeCoordinator(repository)
+        loud = CaseRequest("EC_001", "vi", "Hàng giao trễ 10 ngày, tôi yêu cầu hoàn lại toàn bộ tiền ngay.", "o", True, True, POLICY_VERSION)
+        quiet = CaseRequest("EC_001", "vi", "Nhờ kiểm tra giúp đơn hàng này.", "o", True, True, POLICY_VERSION)
+        from_claim, _ = coordinator.investigate(loud)
+        from_question, _ = coordinator.investigate(quiet)
+        self.assertEqual(from_claim, from_question)
+        # Delivered five days inside the estimate, and the payment reconciles.
+        self.assertEqual(from_claim["case_assessment"]["primary_issue"], "unsupported_late_claim")
+        self.assertEqual(from_claim["case_assessment"]["case_status"], "no_action")
+        self.assertEqual(from_claim["financial_resolution"]["recommended_refund_brl"], 0.0)
+        self.assertEqual(from_claim["resolution_actions"], ["reject_late_refund"])
+        self.assertEqual(from_claim["root_cause_analysis"]["responsible_parties"], [])
+
+    def test_order_never_handed_to_carrier_has_no_handoff_analysis(self) -> None:
+        """No carrier handoff event in the data means there is no handoff to analyse."""
+
+        repository = OlistRepository.from_rows({
+            "customers": [{"customer_id": "c", "customer_unique_id": "u"}],
+            "orders": [{"order_id": "o", "customer_id": "c", "order_status": "canceled", "order_delivered_carrier_date": "", "order_delivered_customer_date": "", "order_estimated_delivery_date": "2017-08-04 00:00:00"}],
+            "order_items": [{"order_id": "o", "order_item_id": "1", "product_id": "p", "seller_id": "s", "shipping_limit_date": "2017-07-20 10:00:00", "price": "10.00", "freight_value": "2.00"}],
+            "order_payments": [{"order_id": "o", "payment_sequential": "1", "payment_type": "credit_card", "payment_value": "12.00"}],
+            "products": [{"product_id": "p", "product_category_name": "cama_mesa_banho"}],
+        })
+        request = CaseRequest("EC_004", "vi", "Investigate", "o", True, True, POLICY_VERSION)
+        output, _ = DisputeCoordinator(repository).investigate(request)
+        self.assertEqual(output["delivery_analysis"]["seller_handoff_analysis"], [])
+        self.assertEqual(output["delivery_analysis"]["late_handoff_seller_ids"], [])
+        self.assertIsNone(output["delivery_analysis"]["delivery_variance_hours"])
+        # The item itself is still an affected entity; only the handoff claim goes.
+        self.assertEqual(output["affected_entities"]["item_ids"], ["o:1"])
+        self.assertEqual(output["affected_entities"]["seller_ids"], ["s"])
 
     def test_real_olist_representatives_cover_every_primary_policy_branch(self) -> None:
         repository = OlistRepository.from_data_dir(Path(__file__).resolve().parents[1] / "data")
@@ -101,7 +152,7 @@ class PipelineTests(unittest.TestCase):
             request = CaseRequest("QA", "vi", "qa", order_id, True, True, POLICY_VERSION)
             output, handoffs = coordinator.investigate(request)
             self.assertEqual(output["case_assessment"]["primary_issue"], primary_issue)
-            self.assertEqual(len(handoffs), 6)
+            self.assertEqual(len(handoffs), 7)
             validate_case_output(output, "QA")
 
 

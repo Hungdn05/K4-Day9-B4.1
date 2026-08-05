@@ -10,9 +10,12 @@ not treated as proof of a delivery, refund, tracking, or payment event.
 All agents use the configured `gpt-4o-mini` model when natural language
 reasoning is needed. Its 8B parameter figure is supplied by the project owner;
 OpenAI does not publish parameter counts publicly. It is therefore configured
-as within the lab's 10B limit by project instruction. Parsing, joins, monetary arithmetic, timestamps, policy selection,
-and verification are deterministic Python operations so results remain
-repeatable and auditable.
+as within the lab's 10B limit by project instruction. Parsing, joins, monetary
+arithmetic, timestamps, policy selection, and output verification are
+deterministic Python operations so results remain repeatable and auditable.
+During the official batch run, every handoff is also reviewed through the
+Responses API. Model audit text is recorded in the trace but cannot override
+source facts, policy, money, or evidence.
 
 ## Agents and least-privilege data access
 

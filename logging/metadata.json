@@ -1,0 +1,40 @@
+{
+  "model": {
+    "provider": "openai",
+    "name": "gpt-4o-mini",
+    "parameter_size_billion": 8,
+    "parameter_size_source": "project-owner assertion; not publicly disclosed by OpenAI",
+    "max_parameter_size_billion": 10
+  },
+  "policy_version": "EC_POLICY_V2",
+  "framework": {
+    "name": "custom-python-multi-agent",
+    "orchestration": "ThreadPoolExecutor domain workers with typed handoffs",
+    "decision_mode": "deterministic CSV joins, arithmetic, and policy rules"
+  },
+  "runtime": {
+    "python_version": "3.14.6",
+    "python_implementation": "CPython",
+    "platform": "macOS-26.6-arm64-arm-64bit-Mach-O"
+  },
+  "run": {
+    "started_at_utc": "2026-08-05T10:18:32.402697+00:00",
+    "completed_at_utc": "2026-08-05T10:18:33.228937+00:00",
+    "case_count": 50,
+    "trace_event_count": 350,
+    "primary_issue_counts": {
+      "canceled_order_paid": 8,
+      "late_delivery_logistics": 10,
+      "late_delivery_seller": 10,
+      "unavailable_order_paid": 6,
+      "unsupported_late_claim": 8,
+      "valid_split_payment": 8
+    },
+    "model_usage": {
+      "invocation_count": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0
+    }
+  }
+}
