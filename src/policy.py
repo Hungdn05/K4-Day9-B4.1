@@ -150,7 +150,11 @@ any applicable supplementary actions in this fixed order:
 
 1. review_seller_handoff       -- when primary is late_delivery_seller
    review_carrier_delay        -- when primary is late_delivery_logistics
-2. verify_refund_completion    -- when a refund is being issued (refund > 0)
+2. verify_refund_completion    -- ONLY when the primary action is issue_full_refund,
+                                 i.e. canceled_order_paid or unavailable_order_paid.
+                                 A freight refund does NOT get this action: the README
+                                 worked example is a late_delivery_seller case refunding
+                                 18.27 BRL and its action list omits it.
 3. coordinate_multi_seller_case-- when the order has 2 or more distinct sellers
 4. verify_payment_allocation   -- when the order has 2 or more payment rows,
                                   EXCEPT when primary is valid_split_payment
