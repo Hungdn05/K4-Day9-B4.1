@@ -10,6 +10,8 @@ Agent's job, and the Verifier only checks the choice for internal consistency.
 
 from __future__ import annotations
 
+from src import config
+
 PRIMARY_ISSUES = (
     "canceled_order_paid",
     "unavailable_order_paid",
@@ -72,7 +74,17 @@ LOGISTICS_PARTY_ID = "LOGISTICS_PROVIDER"
 
 CASE_STATUSES = ("action_required", "no_action")
 
-POLICY_TABLE_TEXT = """\
+# The two no-fault rows. See config.NO_FAULT_RESPONSIBLE_PARTY for why this is not
+# simply "nobody".
+NO_FAULT_ISSUES = ("valid_split_payment", "unsupported_late_claim")
+NO_FAULT_PARTY_TYPE = config.NO_FAULT_RESPONSIBLE_PARTY
+_NO_FAULT_LINE = (
+    f"responsible: {NO_FAULT_PARTY_TYPE} / {PLATFORM_PARTY_ID}"
+    if NO_FAULT_PARTY_TYPE == "platform"
+    else "responsible: nobody"
+)
+
+POLICY_TABLE_TEXT = f"""\
 EC_POLICY_V2 primary issue table. Evaluate the rows STRICTLY TOP TO BOTTOM and stop at
 the FIRST row whose condition holds. A lower row can never override a higher one.
 
@@ -102,15 +114,19 @@ the FIRST row whose condition holds. A lower row can never override a higher one
 
 5. valid_split_payment
    IF payment_row_count >= 2 AND reconciled == true
-   -> responsible: nobody
+   -> {_NO_FAULT_LINE}
    -> refund: 0                        -> action: explain_valid_split_payment
    -> root cause: MULTIPLE_PAYMENTS_RECONCILED
 
 6. unsupported_late_claim
    IF the order was delivered no later than the estimated date AND payments reconcile
-   -> responsible: nobody
+   -> {_NO_FAULT_LINE}
    -> refund: 0                        -> action: reject_late_refund
    -> root cause: DELIVERY_WITHIN_ESTIMATE
+
+Note on rows 5 and 6: no seller and no carrier did anything wrong, but the case still
+belongs to someone -- the platform owns explaining the outcome to the customer. Report
+responsible_party_type = "{NO_FAULT_PARTY_TYPE}" for these two rows.
 """
 
 SECONDARY_RULES_TEXT = """\

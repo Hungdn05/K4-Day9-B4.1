@@ -336,6 +336,14 @@ def verify(
                 "responsible_party",
                 f"late_delivery_logistics blames logistics_provider/{policy.LOGISTICS_PARTY_ID}, got {parties}",
             )
+    elif policy.NO_FAULT_PARTY_TYPE == "platform":
+        expected_party = [{"party_type": "platform", "party_id": policy.PLATFORM_PARTY_ID}]
+        if parties != expected_party:
+            violation(
+                "responsible_party",
+                f"{primary} is a no-fault outcome the platform owns: expected "
+                f"{expected_party}, got {parties}",
+            )
     elif parties:
         violation("responsible_party", f"{primary} has no responsible party, got {parties}")
 

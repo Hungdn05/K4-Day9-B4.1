@@ -81,21 +81,21 @@
   "policy_version": "EC_POLICY_V2",
   "latest_run": {
     "cases_completed": 50,
-    "trace_records": 780,
-    "agent_messages": 366,
+    "trace_records": 748,
+    "agent_messages": 355,
     "messages_by_agent": {
-      "order_product_agent": 53,
-      "customer_agent": 53,
-      "delivery_agent": 53,
+      "customer_agent": 54,
+      "delivery_agent": 52,
       "payment_agent": 53,
-      "policy_agent": 79,
-      "verifier": 75
+      "order_product_agent": 54,
+      "policy_agent": 72,
+      "verifier": 70
     },
-    "distinct_supervisor_call_paths": 8,
-    "cases_needing_re_ruling": 22,
-    "cases_needing_fallback": 0,
+    "distinct_supervisor_call_paths": 6,
+    "cases_needing_re_ruling": 16,
+    "cases_needing_fallback": 1,
     "cases_degraded": 0,
     "median_supervisor_steps": 5,
-    "total_seconds": 6122.5
+    "total_seconds": 5414.9
   }
 }
