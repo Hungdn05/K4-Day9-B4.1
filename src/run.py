@@ -65,12 +65,22 @@ def main() -> int:
         "gets its own supervisor deciding its own course.",
     )
     parser.add_argument(
+        "--model",
+        default=None,
+        help="Override config.MODEL_NAME for this run. Must stay within the 10B limit; "
+        "whatever is used ends up recorded in logging/metadata.json.",
+    )
+    parser.add_argument(
         "--resume",
         action="store_true",
         help="Skip cases that already have a schema-valid output file. Implies "
         "--append-trace so an interrupted run can be continued without losing its trace.",
     )
     args = parser.parse_args()
+
+    if args.model:
+        shared_client().model = args.model
+        print(f"model override: {args.model}\n")
 
     case_ids = all_case_ids() if args.all else (args.cases or ["EC_001"])
 

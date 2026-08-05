@@ -24,9 +24,9 @@
     ],
     "payment_ids": [
       "ccec592b58e122dc2bfc2305152d9603:1",
-      "ccec592b58e122dc2bfc2305152d9603:2",
+      "ccec592b58e122dc2bfc2305152d9603:4",
       "ccec592b58e122dc2bfc2305152d9603:3",
-      "ccec592b58e122dc2bfc2305152d9603:4"
+      "ccec592b58e122dc2bfc2305152d9603:2"
     ]
   },
   "customer_context": {
@@ -83,21 +83,16 @@
         "rank": 1
       }
     ],
-    "responsible_parties": [
-      {
-        "party_type": "platform",
-        "party_id": "OLIST_PLATFORM"
-      }
-    ]
+    "responsible_parties": []
   },
   "evidence_ids": [
     "order:ccec592b58e122dc2bfc2305152d9603",
     "item:ccec592b58e122dc2bfc2305152d9603:1",
     "item:ccec592b58e122dc2bfc2305152d9603:2",
     "payment:ccec592b58e122dc2bfc2305152d9603:1",
-    "payment:ccec592b58e122dc2bfc2305152d9603:2",
-    "payment:ccec592b58e122dc2bfc2305152d9603:3",
     "payment:ccec592b58e122dc2bfc2305152d9603:4",
+    "payment:ccec592b58e122dc2bfc2305152d9603:3",
+    "payment:ccec592b58e122dc2bfc2305152d9603:2",
     "policy:MULTIPLE_PAYMENTS_RECONCILED"
   ],
   "financial_resolution": {

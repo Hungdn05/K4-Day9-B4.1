@@ -147,8 +147,10 @@ def main() -> int:
 
         # null branch
         if not facts["get_order_core"]["has_item_rows"]:
-            if any(recon_out[f] is not None for f in ("item_total_brl", "expected_total_brl", "difference_brl", "reconciled")):
-                problems.append(f"{case_id}: no item rows but reconciliation fields are not null")
+            if any(recon_out[f] is not None for f in ("expected_total_brl", "difference_brl", "reconciled")):
+                problems.append(f"{case_id}: no item rows but expected/difference/reconciled are not null")
+            if any(recon_out[f] != 0 for f in ("item_total_brl", "freight_total_brl")):
+                problems.append(f"{case_id}: no item rows but item/freight totals are not 0.0")
             if out["affected_entities"]["item_ids"] or out["product_context"]["product_ids"]:
                 problems.append(f"{case_id}: no item rows but entity arrays are not empty")
 

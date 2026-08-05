@@ -7,7 +7,7 @@
       "split_payment"
     ],
     "case_status": "action_required",
-    "confidence": 0.95
+    "confidence": 0.98
   },
   "affected_entities": {
     "order_ids": [
@@ -21,8 +21,8 @@
       "cca3071e3e9bb7d12640c9fbe2301306"
     ],
     "payment_ids": [
-      "0e3ec3c17b64c6cc7bc01bba21e7afdf:1",
-      "0e3ec3c17b64c6cc7bc01bba21e7afdf:2"
+      "0e3ec3c17b64c6cc7bc01bba21e7afdf:2",
+      "0e3ec3c17b64c6cc7bc01bba21e7afdf:1"
     ]
   },
   "customer_context": {
@@ -63,8 +63,8 @@
     "difference_brl": 0.0,
     "reconciled": true,
     "payment_types": [
-      "credit_card",
-      "voucher"
+      "voucher",
+      "credit_card"
     ]
   },
   "root_cause_analysis": {
@@ -85,8 +85,8 @@
     "order:0e3ec3c17b64c6cc7bc01bba21e7afdf",
     "item:0e3ec3c17b64c6cc7bc01bba21e7afdf:1",
     "item:0e3ec3c17b64c6cc7bc01bba21e7afdf:2",
-    "payment:0e3ec3c17b64c6cc7bc01bba21e7afdf:1",
     "payment:0e3ec3c17b64c6cc7bc01bba21e7afdf:2",
+    "payment:0e3ec3c17b64c6cc7bc01bba21e7afdf:1",
     "seller:cca3071e3e9bb7d12640c9fbe2301306",
     "policy:SELLER_HANDOFF_AFTER_LIMIT"
   ],
@@ -97,7 +97,6 @@
   "resolution_actions": [
     "refund_freight",
     "review_seller_handoff",
-    "verify_refund_completion",
     "verify_payment_allocation"
   ]
 }

@@ -23,8 +23,8 @@
       "c32fc744b9160ac853450488e3cfea93"
     ],
     "payment_ids": [
-      "23c312ca9f0242a48a95e5643bee2645:1",
-      "23c312ca9f0242a48a95e5643bee2645:2"
+      "23c312ca9f0242a48a95e5643bee2645:2",
+      "23c312ca9f0242a48a95e5643bee2645:1"
     ]
   },
   "customer_context": {
@@ -70,8 +70,8 @@
     "difference_brl": 0.0,
     "reconciled": true,
     "payment_types": [
-      "credit_card",
-      "voucher"
+      "voucher",
+      "credit_card"
     ]
   },
   "root_cause_analysis": {
@@ -81,19 +81,14 @@
         "rank": 1
       }
     ],
-    "responsible_parties": [
-      {
-        "party_type": "platform",
-        "party_id": "OLIST_PLATFORM"
-      }
-    ]
+    "responsible_parties": []
   },
   "evidence_ids": [
     "order:23c312ca9f0242a48a95e5643bee2645",
     "item:23c312ca9f0242a48a95e5643bee2645:1",
     "item:23c312ca9f0242a48a95e5643bee2645:2",
-    "payment:23c312ca9f0242a48a95e5643bee2645:1",
     "payment:23c312ca9f0242a48a95e5643bee2645:2",
+    "payment:23c312ca9f0242a48a95e5643bee2645:1",
     "policy:MULTIPLE_PAYMENTS_RECONCILED"
   ],
   "financial_resolution": {

@@ -80,12 +80,7 @@
         "rank": 1
       }
     ],
-    "responsible_parties": [
-      {
-        "party_type": "platform",
-        "party_id": "OLIST_PLATFORM"
-      }
-    ]
+    "responsible_parties": []
   },
   "evidence_ids": [
     "order:370098d35ccd8a2af86b57c81ac7d24f",
