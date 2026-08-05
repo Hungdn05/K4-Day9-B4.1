@@ -1,0 +1,101 @@
+{
+  "model": {
+    "name": "qwen/qwen3-8b",
+    "parameter_size": "8B",
+    "provider": "openrouter",
+    "api_base": "https://openrouter.ai/api/v1",
+    "within_10b_limit": true,
+    "note": "Every agent in the system runs on this single model."
+  },
+  "decoding": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_tokens": 2048,
+    "seed": 42,
+    "reasoning_enabled_for": [
+      "supervisor",
+      "policy_agent"
+    ]
+  },
+  "framework": {
+    "name": "custom",
+    "description": "Hand-written tool-calling loop over the OpenRouter chat completions API. No agent framework (no LangChain, LangGraph, CrewAI or AutoGen) is used.",
+    "libraries": [
+      "requests",
+      "pandas",
+      "pydantic",
+      "python-dotenv"
+    ]
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "orchestration": "LLM supervisor with agents exposed as tools",
+    "supervisor_max_steps": 14,
+    "specialist_max_steps": 8,
+    "verifier_max_repair_rounds": 3
+  },
+  "agents": [
+    {
+      "name": "supervisor",
+      "role": "orchestration",
+      "llm": true,
+      "tools": "agents-as-tools"
+    },
+    {
+      "name": "customer_agent",
+      "role": "customer identity and history",
+      "llm": true,
+      "toolbox": "customer"
+    },
+    {
+      "name": "order_product_agent",
+      "role": "order, items, sellers, products",
+      "llm": true,
+      "toolbox": "order_product"
+    },
+    {
+      "name": "payment_agent",
+      "role": "payments and reconciliation",
+      "llm": true,
+      "toolbox": "payment"
+    },
+    {
+      "name": "delivery_agent",
+      "role": "delivery and seller handoff variance",
+      "llm": true,
+      "toolbox": "delivery"
+    },
+    {
+      "name": "policy_agent",
+      "role": "applies EC_POLICY_V2",
+      "llm": true,
+      "toolbox": "policy"
+    },
+    {
+      "name": "verifier",
+      "role": "deterministic schema and consistency audit",
+      "llm": false
+    }
+  ],
+  "policy_version": "EC_POLICY_V2",
+  "latest_run": {
+    "cases_completed": 50,
+    "trace_records": 780,
+    "agent_messages": 366,
+    "messages_by_agent": {
+      "order_product_agent": 53,
+      "customer_agent": 53,
+      "delivery_agent": 53,
+      "payment_agent": 53,
+      "policy_agent": 79,
+      "verifier": 75
+    },
+    "distinct_supervisor_call_paths": 8,
+    "cases_needing_re_ruling": 22,
+    "cases_needing_fallback": 0,
+    "cases_degraded": 0,
+    "median_supervisor_steps": 5,
+    "total_seconds": 6122.5
+  }
+}
